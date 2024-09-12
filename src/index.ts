@@ -23,6 +23,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.static(`${process.env.PUBLIC_DIR}`));
 app.use("/api", authRouter);
 app.use("/api", workflowRoutes);
 app.listen(process.env.PORT, () =>
