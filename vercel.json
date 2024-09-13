@@ -1,15 +1,14 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "./index.js",
-      "use": "@vercel/node"
-    }
+    { "src": "package.json", "use": "@vercel/static-build" },
+    { "src": "dist/index.js", "use": "@vercel/node" }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/"
-    }
+      "source": "(.*)",
+      "destination": "https://mern-project-with-react-flow.vercel.app/$1"
+    },
+    { "source": "(.*)", "destination": "/index.html" }
   ]
 }
