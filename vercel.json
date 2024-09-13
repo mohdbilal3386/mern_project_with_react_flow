@@ -5,10 +5,7 @@
     { "src": "dist/index.js", "use": "@vercel/node" }
   ],
   "rewrites": [
-    {
-      "source": "(.*)",
-      "destination": "https://mern-project-with-react-flow.vercel.app/$1"
-    },
+    { "source": "(.*)", "destination": "dist/index.js" },
     { "source": "(.*)", "destination": "/index.html" }
   ]
 }
