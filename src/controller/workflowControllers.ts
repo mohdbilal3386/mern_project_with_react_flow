@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import csvtojson from "csvtojson";
 import axios from "axios";
-import { WorkflowModel } from "../module/workflowModel";
+
 import multer from "multer";
+import { Workflow } from "../module/workflowModel";
 
 export const saveWorkflow = async (req: Request, res: Response) => {
   try {
-    const workflow = new WorkflowModel(req.body);
+    const workflow = new Workflow(req.body);
     await workflow.save();
     res.status(201).json({ message: "Workflow saved", id: workflow._id });
   } catch (error) {
@@ -25,7 +26,7 @@ export const executeWorkflow = async (req: Request, res: Response) => {
       const file = req.file;
 
       console.log({ workflowId, file });
-      const workflow = await WorkflowModel.findById({ _id: workflowId }).exec();
+      const workflow = await Workflow.findById({ _id: workflowId }).exec();
 
       if (!workflow) {
         return res.status(404).json({ message: "Workflow not found" });
@@ -71,7 +72,7 @@ export const executeWorkflow = async (req: Request, res: Response) => {
 };
 export const loadWorkflow = async (req: Request, res: Response) => {
   try {
-    const workflow = await WorkflowModel.findById(req.params.id);
+    const workflow = await Workflow.findById(req.params.id);
     if (!workflow) {
       return res.status(404).json({ message: "Workflow not found" });
     }
@@ -83,7 +84,7 @@ export const loadWorkflow = async (req: Request, res: Response) => {
 
 export const fetchWorkflow = async (req: Request, res: Response) => {
   try {
-    const workflow = await WorkflowModel.find();
+    const workflow = await Workflow.find();
     res.status(200).json(workflow);
   } catch (error) {
     res.status(500).json({ message: "Error loading workflow", error });

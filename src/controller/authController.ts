@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { UserModel } from "../module/authModel";
+import { Users } from "../module/authModel";
 
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "30d" });
@@ -10,13 +10,13 @@ const generateToken = (id: string) => {
 export const registerUser = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
-  const userExists = await UserModel.findOne({ email });
+  const userExists = await Users.findOne({ email });
 
   if (userExists) {
     return res.status(400).json({ message: "User already exists" });
   }
 
-  const user = await UserModel.create({
+  const user = await Users.create({
     name,
     email,
     password,
@@ -33,7 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await UserModel.findOne({ email });
+  const user = await Users.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({

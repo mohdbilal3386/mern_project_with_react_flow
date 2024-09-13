@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { UserModel } from "../module/authModel";
+import { Users } from "../module/authModel";
 import "dotenv/config";
 
 export interface AuthRequest extends Request {
@@ -21,9 +21,7 @@ export const protect = async (
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
-      req.user = await UserModel.findById((decoded as any).id).select(
-        "password"
-      );
+      req.user = await Users.findById((decoded as any).id).select("password");
 
       next();
     } catch (error) {

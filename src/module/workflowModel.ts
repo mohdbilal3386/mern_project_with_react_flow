@@ -13,7 +13,7 @@ interface Edge {
   target: string;
 }
 
-interface Workflow {
+interface WorkflowTypes {
   nodes: Node[];
   edges: Edge[];
 }
@@ -45,10 +45,10 @@ const edgeSchema = new Schema<Edge>({
 });
 
 // Workflow Schema
-const WorkflowSchema = new Schema<Workflow>({
+const WorkflowSchema = new Schema<WorkflowTypes>({
   nodes: { type: [nodeSchema], required: true },
   edges: { type: [edgeSchema], required: true },
 });
 
 // Create the Model
-export const WorkflowModel = model<Workflow>("Workflow", WorkflowSchema);
+export const Workflow = model<WorkflowTypes>("Workflow", WorkflowSchema);
